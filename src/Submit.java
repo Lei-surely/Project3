@@ -7,6 +7,7 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.*;
 import java.io.*;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ class SubFrame extends JFrame{
     private JTextArea my_answer=null;
     //答题正确率显示
     private JLabel correct=null;
-    
+    ArrayList<String> count_array =null;
 	//构造函数
 	public SubFrame(String title) {
 		super(title);
@@ -36,6 +37,7 @@ class SubFrame extends JFrame{
 	}
 	//初始化函数
 	public void init() {
+		count_array= new ArrayList<String>();
 		layout= new GridLayout(1,2,20,14);
 		correct= new JLabel("正确率显示");
 		correct.setForeground(Color.red);
@@ -80,16 +82,12 @@ class SubFrame extends JFrame{
 	//设置监听
 	private void registerListener() {
 		btn_again.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				onceagain();
-				
+				onceagain();				
 			}	
 		});
+		
 		btn_xianshi.addActionListener(new ActionListener() {
-
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				File file = new File("answer.txt");
 			    if (file.exists() && file.isFile()) {
@@ -101,15 +99,20 @@ class SubFrame extends JFrame{
 			    	} catch (IOException ioException) {
 			    	System.err.println("File Error!");
 			       }		
-			    }	 
-			    
-			    result();
+			    }	 			    
+			    result();//显示测试结果函数调用
 			    try {
 					compare();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}				
+			}			
+		});
+		//统计结果
+		btn_js.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				stat_result();//
 				
 			}
 			
@@ -118,7 +121,7 @@ class SubFrame extends JFrame{
 	//函数实现
     public void onceagain() {
 		 this.dispose();
-		 MyFrame frame = new MyFrame("运算");
+		 //MyFrame frame = new MyFrame("运算");
 	}
     //显示测试结果
     public void result() {
@@ -132,7 +135,7 @@ class SubFrame extends JFrame{
 	    	} catch (IOException ioException) {
 	    	System.err.println("File Error!");
 	       }		
-	    }	
+	    }
     }
     
     //比较结果
@@ -140,7 +143,7 @@ class SubFrame extends JFrame{
     	//封装数据源
         BufferedReader br_a = new BufferedReader(new FileReader("answer.txt"));
         BufferedReader br_r = new BufferedReader(new FileReader("result.txt"));
-       //封装目的地
+        //封装目的地
         ArrayList<String> answer = new ArrayList<String>();
         ArrayList<String> result = new ArrayList<String>();
         //读取数据写到集合中
@@ -151,28 +154,45 @@ class SubFrame extends JFrame{
 			answer.add(line1);
 		}
 		while((line2 = br_r.readLine())!= null){
-			//answer.add(line1);
 			result.add(line2);
 		}
-			//遍历进行比较
-			int i,j,count=0;
-			for(i=0;i<answer.size();i++) {
-					String s1=answer.get(i);
-					String s2=result.get(i);
-					if(s1.equals(s2)) {
-						count++;
-				}
+		//遍历进行比较
+		int i=0;
+		int count=0;
+		for(i=0;i<answer.size();i++) 
+		{
+			String s1=answer.get(i);
+			String s2=result.get(i);
+			if(s1.equals(s2)) 
+			{
+				count++;						
 			}
-			System.out.print(count);
+				
+		}
+		NumberFormat numberFormat = NumberFormat.getInstance();    
+        // 设置精确到小数点后2位  
+        numberFormat.setMaximumFractionDigits(2);  
+        String s3 = numberFormat.format((float) count / (float)answer.size() * 100);   
+		correct.setText("您做对了"+count+"道， "+"正确率为："+String.valueOf(s3)+"%");
+		count_array.add(s3);
     }
     
     
 	private Object line2(String readLine) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	private Object newFileReader1(String string) {
 		return null;
+	}
+	
+	//统计结果函数
+	public void stat_result() {
+//		Chart demo = new Chart();  
+//		demo.setVisible(true);
+		for(String e: count_array) 
+		{
+			System.out.println(e);
+		}
 	}
 	
 }

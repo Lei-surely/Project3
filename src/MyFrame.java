@@ -22,23 +22,24 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 class MyFrame extends JFrame {
+	
 		private JTextArea area=null;
 		public JTextField field[];
-		private JButton btn_tj =null;
-		private JButton btn_begin =null;
-		private JButton btn_js =null;
+		private JButton btn_tj =null;//提交
+		private JButton btn_begin =null;//开始测试
 		private JPanel p_area = null;
 		private JPanel p_btn = null;
 		private GridLayout layout =null;
-
+		private JLabel lbl=null;//显示时间
+		
 		Date now = new Date();
-					
-		JLabel lbl=null;//显示时间
+							
 		public MyFrame(String title) {
 			super(title);
 			init();
 			registerListener();
 		}
+		//初始化函数
 		public void init() {
 			now.setHours(0);
 			now.setMinutes(0);
@@ -50,7 +51,6 @@ class MyFrame extends JFrame {
 			layout = new GridLayout();
 
 			btn_tj = new JButton("提交");
-			btn_js = new JButton("统计结果");
 			btn_begin = new JButton("开始测试");
 			
 			p_area= new JPanel();
@@ -65,8 +65,7 @@ class MyFrame extends JFrame {
 			this.add(p_area,BorderLayout.CENTER);
 			
 			p_btn.add(btn_begin);
-			p_btn.add(btn_tj);
-			p_btn.add(btn_js);
+			p_btn.add(btn_tj);;
 			p_btn.add(lbl);
 			this.add(p_btn,BorderLayout.SOUTH);
 			
@@ -78,6 +77,7 @@ class MyFrame extends JFrame {
 		
 		//注册监听
 		private void registerListener() {
+			//计时
 			Timer timer = new Timer(1000, new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					Date now2 = new Date(now.getTime() + 1000);
@@ -87,43 +87,36 @@ class MyFrame extends JFrame {
 				}
 			});
 			btn_begin.addActionListener(new ActionListener() {
-
-				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					//开始测试
+					//开始测试函数调用
 					begin();
 					timer.start();
 				}				
 			});
 			btn_tj.addActionListener(new ActionListener() {
-
-				@Override
 				public void actionPerformed(ActionEvent arg0) {
-
 					timer.stop();
 					try {
 						submit();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				
 			});
 		}
 		//开始测试函数
-		public void begin() {
-			
-			//运算代码
+		public void begin() {			
+			//算式生成代码
+			area.setText("");
 			CalTest calrandom= new CalTest();
 			try {
 				calrandom.random();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			File file = new File("suanshi.txt");
-		    if (file.exists() && file.isFile()) {
+		    if (file.exists() && file.isFile()) 
+		    {
 		    	try {
 		            BufferedReader input = new BufferedReader(new FileReader(file));
 		            String text;
@@ -131,9 +124,8 @@ class MyFrame extends JFrame {
 		            	area.setText(area.getText() + text + "\n");
 		    	} catch (IOException ioException) {
 		    	System.err.println("File Error!");
-		       }		
+		        }		
 		    }	    
-		    //计时
 		}
 		
 		//提交函数
@@ -142,26 +134,24 @@ class MyFrame extends JFrame {
 			try {
 				fw = new FileWriter("result.txt");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			String str=area.getText();
-			for(int i=0;i<str.length();i++){
-			 if(str.charAt(i)==10){
-			     fw.write(13);//写入\r
-			     fw.write(10);//写入\n
-			 }else{
-			    fw.write(str.charAt(i));
-			        }
+			for(int i=0;i<str.length();i++)
+			{
+				if(str.charAt(i)==10)
+				{
+					fw.write(13);//写入
+			        fw.write(10);//写入
+			    }
+				else
+			    {
+					fw.write(str.charAt(i));
+			    }
 			}
-			   fw.close();			
-			
-			this.dispose();
+			fw.close();						
+			//this.dispose();
 			SubFrame subframe= new SubFrame("结果");
-		}
-		
-		
-	
-		
+		}	
 	}
 		
