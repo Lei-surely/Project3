@@ -17,8 +17,8 @@ public class Submit {
 }
 class SubFrame extends JFrame{
 	private JButton btn_again =null;//再来一轮
-	private JButton btn_js =null;//统计结果
-	private JButton btn_xianshi =null;//统计结果
+	private JButton btn_xianshi =null;//显示结果
+	private JButton btn_exit =null;//统计结果
 	private JPanel p_left= null;
 	private JPanel p_on= null;
 	private JPanel p_right= null;
@@ -28,7 +28,6 @@ class SubFrame extends JFrame{
     private JTextArea my_answer=null;
     //答题正确率显示
     private JLabel correct=null;
-    ArrayList<String> count_array =null;
 	//构造函数
 	public SubFrame(String title) {
 		super(title);
@@ -37,7 +36,6 @@ class SubFrame extends JFrame{
 	}
 	//初始化函数
 	public void init() {
-		count_array= new ArrayList<String>();
 		layout= new GridLayout(1,2,20,14);
 		correct= new JLabel("正确率显示");
 		correct.setForeground(Color.red);
@@ -49,7 +47,7 @@ class SubFrame extends JFrame{
 		
 	    btn_xianshi= new JButton("显示结果");
 		btn_again= new JButton("再来一轮");
-		btn_js = new JButton("统计结果");
+		btn_exit= new JButton("返回");
 		p_left = new JPanel();
 		p_right= new JPanel();
 		p_right.add(my_answer);
@@ -70,7 +68,7 @@ class SubFrame extends JFrame{
 		p_south.add(btn_xianshi);
 		p_south.setBackground(Color.LIGHT_GRAY);
 		p_south.add(btn_again);
-		p_south.add(btn_js);
+		p_south.add(btn_exit);
 		p_south.add(correct);
 		
 		this.add(p_on);
@@ -108,11 +106,11 @@ class SubFrame extends JFrame{
 				}				
 			}			
 		});
-		//统计结果
-		btn_js.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				stat_result();//
+		btn_exit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				onceagain();
 				
 			}
 			
@@ -121,7 +119,6 @@ class SubFrame extends JFrame{
 	//函数实现
     public void onceagain() {
 		 this.dispose();
-		 //MyFrame frame = new MyFrame("运算");
 	}
     //显示测试结果
     public void result() {
@@ -139,7 +136,7 @@ class SubFrame extends JFrame{
     }
     
     //比较结果
-    public void compare() throws IOException {
+    public int compare() throws IOException {
     	//封装数据源
         BufferedReader br_a = new BufferedReader(new FileReader("answer.txt"));
         BufferedReader br_r = new BufferedReader(new FileReader("result.txt"));
@@ -166,15 +163,16 @@ class SubFrame extends JFrame{
 			if(s1.equals(s2)) 
 			{
 				count++;						
-			}
-				
+			}				
 		}
 		NumberFormat numberFormat = NumberFormat.getInstance();    
+		
         // 设置精确到小数点后2位  
         numberFormat.setMaximumFractionDigits(2);  
         String s3 = numberFormat.format((float) count / (float)answer.size() * 100);   
 		correct.setText("您做对了"+count+"道， "+"正确率为："+String.valueOf(s3)+"%");
-		count_array.add(s3);
+		int b=count*5;
+		return b;
     }
     
     
@@ -185,14 +183,5 @@ class SubFrame extends JFrame{
 		return null;
 	}
 	
-	//统计结果函数
-	public void stat_result() {
-//		Chart demo = new Chart();  
-//		demo.setVisible(true);
-		for(String e: count_array) 
-		{
-			System.out.println(e);
-		}
-	}
 	
 }

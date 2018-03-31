@@ -13,11 +13,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 public class MainTest {
-	public static  void main(String[] args) {
-		ArrayList<String> count_array =new ArrayList<String>();
-		
-		    MyFrame frame = new MyFrame("四则运算");
-		
+	public static  void main(String[] args) {	
+		    MyFrame frame = new MyFrame("四则运算");	
 	}
 
 }

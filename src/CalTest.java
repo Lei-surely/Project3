@@ -22,7 +22,7 @@ class CalTest {
         BufferedWriter out1 = new BufferedWriter(new FileWriter(writename));
         BufferedWriter out2 = new BufferedWriter(new FileWriter(name));
 
-		for(int i=0;i<21;i++)
+		for(int i=0;i<20;i++)
 		{
 			int a=(int)(Math.random()*100);
 			int b=(int)(Math.random()*100);
@@ -32,16 +32,16 @@ class CalTest {
 			switch(c)
 			{
 			    case 0:
-			    	while(true){
-			    		a1= (int) (Math.random()*100 + 0);
-			            b1= (int) (Math.random()*100 + 1);
-			    		if(a1%b1==0)
-			    		{
-			    			 out1.write(a+"+"+b+"+"+a1+"/"+b1+"="+"\r\n");
-			    			 out2.write(a+"+"+b+"+"+a1+"/"+b1+"="+(a+b+a1/b1)+"\r\n");
-			    			 break;
-			    		}
+			    	a1= (int) (Math.random()*100 + 0);
+			        b1= (int) (Math.random()*100 + 1);
+			            
+			        if(a1%b1==0)
+			    	{
+			    		out1.write(a+"+"+b+"+"+a1+"/"+b1+"="+"\r\n");
+			    		out2.write(a+"+"+b+"+"+a1+"/"+b1+"="+(a+b+a1/b1)+"\r\n");
 			    	}
+			    	else
+			    		i--;
 			    	break;
 			    case 1:
 			    	if(a<b)
@@ -58,25 +58,25 @@ class CalTest {
 			    	out2.write(a + "*" + b+"+" +a1+"+ "+b1+" = "+(a*b+a1+b1)+"\r\n");
 			    	break;
 			    case 3:
-			    	while(true){
-			    		a = (int) (Math.random()*100 + 0);
-			            b = (int) (Math.random()*100 + 1);
-			    		if(a%b==0)
+			    	a = (int) (Math.random()*100 + 0);
+			        b = (int) (Math.random()*100 + 1);
+			    	if(a%b==0)
+			    	{
+			    		if(a/b+a1>=b1)
 			    		{
-			    			if(a/b+a1>=b1)
-			    			{
-			    			 out1.write(a + "/" + b +"+"+ a1+"+"+b1+"=" +"\r\n");
-			    			 out2.write(a + "/" + b +"+"+ a1+"+"+b1+"=" +(a/b+a1+b1)+"\r\n");
-			    			}
-			    			 break;	 
+			    			out1.write(a + "/" + b +"+"+ a1+"+"+b1+"=" +"\r\n");
+			    			out2.write(a + "/" + b +"+"+ a1+"+"+b1+"=" +(a/b+a1+b1)+"\r\n");
 			    		}
-			    		
-
+			    		else {
+			    			i--;
+			    		}			    				 
 			    	}
-
+			    	else
+			    		i--;
+			    	break;
 			  }
-	            out1.flush(); // 把缓存区内容压入文件
-	            out2.flush(); // 把缓存区内容压入文件
-			}
-}
+	          out1.flush(); // 把缓存区内容压入文件
+	          out2.flush(); // 把缓存区内容压入文件
+		}
+	}
 }
