@@ -153,7 +153,7 @@ class SubFrame extends JFrame{
 		while((line2 = br_r.readLine())!= null){
 			result.add(line2);
 		}
-		//遍历进行比较
+		//遍历进行比较并计算正确率
 		int i=0;
 		int count=0;
 		for(i=0;i<answer.size();i++) 
@@ -166,8 +166,6 @@ class SubFrame extends JFrame{
 			}				
 		}
 		NumberFormat numberFormat = NumberFormat.getInstance();    
-		
-        // 设置精确到小数点后2位  
         numberFormat.setMaximumFractionDigits(2);  
         String s3 = numberFormat.format((float) count / (float)answer.size() * 100);   
 		correct.setText("您做对了"+count+"道， "+"正确率为："+String.valueOf(s3)+"%");

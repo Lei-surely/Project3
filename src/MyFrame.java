@@ -109,13 +109,11 @@ class MyFrame extends JFrame {
 				}
 			});
 			btn_js.addActionListener(new ActionListener() {
-
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					//统计结果函数
 					counts();
-				}
-				
+				}				
 			});
 		}
 		//开始测试函数
@@ -181,7 +179,7 @@ class MyFrame extends JFrame {
 		    public Chart(){  
 		        super();  
 		        setTitle("测试结果统计");  
-		        setBounds(400, 60, 700, 500);
+		        setBounds(400, 60, 700, 550);
 		        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
 		        this.setVisible(true);
 		        this.setResizable(false);
@@ -200,17 +198,17 @@ class MyFrame extends JFrame {
 		        int Width = getWidth();  
 		        int Height = getHeight();  
 		        int leftMargin = 20;//柱形图左边界  
-		        int topMargin = 50;//柱形图上边界  
+		        //int topMargin = 200;//柱形图上边界  
 		        Graphics2D g2 = (Graphics2D) g;  
-		        int ruler = Height-topMargin;  
-		        int rulerStep = ruler/10;//将当前的高度平分为10个单位  
-		        g2.setColor(Color.LIGHT_GRAY);//绘制白色背景  
+		        int ruler = Height;  
+		        int rulerStep = ruler/11;//将当前的高度平分为10个单位  
+		        g2.setColor(Color.LIGHT_GRAY);//绘制灰色背景  
 		        g2.fillRect(0, 0, Width, Height);//绘制矩形图  
-		        g2.setColor(Color.red);  
+		        g2.setColor(Color.GRAY);  
 		        
 		        for(int i=0;i<=10;i++){  
-		            g2.drawString(String.valueOf(100-(10*i)), 20, topMargin+rulerStep*i-8);//写下分数
-		            g2.drawLine(0, topMargin+rulerStep*i-8, Width, topMargin+rulerStep*i-8);//绘制横线  
+		            g2.drawString(String.valueOf(100-(10*i)), 20, rulerStep*i+44);//写下分数
+		            g2.drawLine(0, rulerStep*i+44, Width, rulerStep*i+44);//绘制横线  
 		        }  
 		        g2.setColor(Color.DARK_GRAY);
 		        for(int i=0;i<count_array.size();i++) {
@@ -219,8 +217,8 @@ class MyFrame extends JFrame {
 		        	//设置每隔柱形图的水平间隔为30
 		            int step = (i+1)*30;  
 		            //绘制矩形  
-		            g2.fillRoundRect(leftMargin+step*2, Height-(Height/100)*f-2, 30, (Height/100)*f-2,30, 0);    
-		            g2.drawString("第"+(i+1)+"轮", leftMargin+step*2,Height-(Height/100)*f-10);  
+		            g2.fillRoundRect(leftMargin+step*2, Height-(Height/110)*f-5, 30, (Height/110)*f-3,30, 0);    
+		            g2.drawString("第"+(i+1)+"轮", leftMargin+step*2,Height-(Height/110)*f-10);  
 		        }
 		         
 		    }  
